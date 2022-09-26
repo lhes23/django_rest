@@ -39,3 +39,6 @@ def getSinglePost(request, id):
                 serializer.save()
                 return Response({'post':serializer.data}, status=status.HTTP_200_OK)
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST )
+        case "DELETE":
+            post.delete()
+            return Response({'success':f'Post Item deleted with the id:{id}'}, status=status.HTTP_200_OK)
