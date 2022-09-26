@@ -22,3 +22,14 @@ def getAllPosts(request):
                 return Response({'post': serializer.data}, status=status.HTTP_202_ACCEPTED )
             return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST )
 
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def getSinglePost(request, id):
+    try:
+        post = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        return Response({'errors': f'No Post with the id: {id}'}, status=status.HTTP_400_BAD_REQUEST)
+    match(request.method):
+        case "GET":
+            serializer = PostSerializer(post)
+            return Response({'post':serializer.data}, status=status.HTTP_200_OK)
