@@ -33,3 +33,9 @@ def getSinglePost(request, id):
         case "GET":
             serializer = PostSerializer(post)
             return Response({'post':serializer.data}, status=status.HTTP_200_OK)
+        case "PUT":
+            serializer = PostSerializer(post,data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'post':serializer.data}, status=status.HTTP_200_OK)
+            return Response({'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST )
